@@ -1,11 +1,11 @@
 #include <SoftwareSerial.h>
 const int rxPin= 10; //for bluetooth communication
-const int txPin=11;
+const int txPin=12;
 char incoming; // stores command from the bluetooth
 int motorSpeed; //the speed at which the motor moves
-int minSpeed=85; // minimum speed 
+int minSpeed=130; // minimum speed 
 int maxSpeed=255; //max speed
-#define ENA 9 
+#define ENA 7
 #define ENB 6
 
 // motor 2 control pins
@@ -72,6 +72,10 @@ void loop() {
   {
     leftward();
   }
+  else if (incoming=='M')
+  {
+    halt();
+  }
   
 }
   //*******************************************************************************************
@@ -113,6 +117,15 @@ void leftward() {
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
 }
+void halt() {
+  // motor 1 runs anticlockwise
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  // motor 2 run clockwise
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+}
+
 void Speed(){ // the shape buttons are set to various speed
   
    if (incoming=='r') //when rectangle shape is pressed, gives minimum speed
@@ -123,13 +136,13 @@ void Speed(){ // the shape buttons are set to various speed
   }
   else if (incoming== 's') //when triangle shape is pressed, increases speed
   {
-    motorSpeed= 140;
+    motorSpeed= 172;
      analogWrite(ENB, motorSpeed);
       analogWrite(ENA, motorSpeed);
   }
    else if (incoming=='t') //when X shape is pressed, increases the speed more
   {
-    motorSpeed=200;
+    motorSpeed=214;
      analogWrite(ENA, motorSpeed);
       analogWrite(ENB, motorSpeed);
   }
